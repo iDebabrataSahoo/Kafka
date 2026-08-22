@@ -13,12 +13,12 @@ import java.util.concurrent.CompletableFuture;
 public class ProducerService {
 
     @Autowired
-    private KafkaTemplate<String, UserDTO> kafkaTemplate;
+    private KafkaTemplate<String, Object> kafkaTemplate;
     @Value("${spring.kafka.topicName}")
     private String topicName;
 
     public void sendMessage(UserDTO message) {
-        CompletableFuture<SendResult<String, UserDTO>> sendResultCompletableFuture = kafkaTemplate.send(topicName, message);
+        CompletableFuture<SendResult<String, Object>> sendResultCompletableFuture = kafkaTemplate.send(topicName, message);
         sendResultCompletableFuture.whenComplete((result, ex) -> {
             if (ex == null) {
                 System.out.println("Sent message=[" + message +
