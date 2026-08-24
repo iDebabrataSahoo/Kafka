@@ -11,35 +11,11 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
-/**
- * ConsumerService: Main Kafka Listener and Dead Letter Topic (DLT) Handler.
- * 
- * ========================================================================================
- * WHAT IS A DEAD LETTER TOPIC (DLT)?
- * ========================================================================================
- * In event-driven architectures, consumers sometimes fail to process incoming messages due to:
- * 1. Data errors (e.g., malformed JSON, missing mandatory fields, invalid data types).
- * 2. Transient failures (e.g., temporary database disconnect, downstream service rate limit).
- * 
- * Without a DLT:
- * If a consumer crashes on a bad message ("poison pill"), Kafka keeps re-delivering that exact same
- * bad message forever. This blocks processing of all subsequent valid messages in the partition!
- * 
- * With a DLT:
- * 1. The consumer retries processing the message a specified number of times (`attempts = "3"`).
- * 2. It waits between attempts using a backoff delay (`delay = 2000ms`, `multiplier = 2.0`).
- * 3. If processing STILL fails after max attempts, the message is automatically moved to the DLT!
- * 4. Main partition consumer continues processing new messages without getting blocked!
- * ========================================================================================
- */
 @Service
 @Slf4j
 public class ConsumerService {
 
     /**
-     * Main Kafka Consumer with Automatic Retry and DLT Routing.
-     * 
-     * ANNOTATION BREAKDOWN:
      * 
      * 1. @KafkaListener:
      *    - topics: Listens to topic name specified in properties ("user-events-topic").
