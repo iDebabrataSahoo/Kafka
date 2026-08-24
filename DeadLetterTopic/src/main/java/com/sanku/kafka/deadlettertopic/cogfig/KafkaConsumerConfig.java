@@ -1,4 +1,4 @@
-package com.sanku.kafka.simpleproducerconsumer.config;
+package com.sanku.kafka.deadlettertopic.cogfig;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -24,7 +24,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JacksonJsonDeserializer.class);
-        props.put(JacksonJsonDeserializer.TRUSTED_PACKAGES, "com.sanku.kafka.simpleproducerconsumer.dto");
+        props.put(JacksonJsonDeserializer.TRUSTED_PACKAGES, "com.sanku.kafka.deadlettertopic.dto");
         return props;
     }
 
